@@ -1,0 +1,32 @@
+import { cn } from "@/lib/utils";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AppHeader } from "@/components/app-header";
+import { AppSidebar } from "@/components/app-sidebar";
+import { usePG } from "@/pg-context";
+
+export function AppShell({ children }: { children: React.ReactNode }) {
+	const { currentPage } = usePG();
+
+	return (
+		<SidebarProvider
+			className={cn(
+				"[--app-wrapper-max-width:80rem]",
+				"[--app-header-height:3rem]"
+			)}
+		>
+			<AppSidebar />
+			<SidebarInset className="bg-background">
+				<AppHeader />
+				<div
+					key={currentPage}
+					className={cn(
+						"flex flex-1 flex-col p-4 md:p-6 animate-fade-in-up",
+						"mx-auto w-full max-w-(--app-wrapper-max-width)"
+					)}
+				>
+					{children}
+				</div>
+			</SidebarInset>
+		</SidebarProvider>
+	);
+}
